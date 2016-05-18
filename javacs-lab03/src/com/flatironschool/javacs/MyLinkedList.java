@@ -85,7 +85,18 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int index, E element) {
-		// TODO: fill this in
+		if (index == 0) {
+			Node oldHead = head;
+			head = new Node(element);
+			head.next = oldHead;
+
+		} else {
+			Node node = getNode(index -1);
+			Node nodeToAdd = new Node(element);
+			nodeToAdd.next = node.next;
+			node.next = nodeToAdd;
+		}
+		size++;
 	}
 
 	@Override
@@ -146,7 +157,15 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: fill this in
+		// returns FIRST OCCURANCE OF TARGET
+		Node node = head;
+		for (int i = 0; i < size; i++) {
+			// EQUALS METHOD HANDLES NULL TARGETS PROPERLY
+			if (equals(target, node.cargo)) {
+				return i;
+			}
+			node = node.next;
+		}
 		return -1;
 	}
 
@@ -202,13 +221,46 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public boolean remove(Object obj) {
 		// TODO: fill this in
-		return false;
+		// first get to object
+		int index = indexOf(obj);
+		if (index ==-1) {
+			return false;
+		}
+		//Node node = head;
+		//for (index = 0; index < size; index++) {
+		//	if (equals(node, obj)) {
+		//		Node prev = getNode(index -1);
+		//		prev.next = node.next;
+		//		node.next = null;
+		//		size--;
+		//		return true;
+		//	}
+		//	node = node.next;
+		//)
+		remove(index);
+		return true;
 	}
 
 	@Override
 	public E remove(int index) {
+		E toReturn = get(index);
 		// TODO: fill this in
-		return null;
+		if (index == 0) {
+			head = head.next;
+		} else {
+			Node prev = getNode(index -1);
+			Node node = getNode(index);
+			//int i;
+			// for (i = 0; i < index; i++) {
+		 // 		node = node.next;
+		 // 	}
+		 	prev.next = node.next;
+		}
+
+		//node.next = null;
+		size--;
+		
+		return toReturn;
 	}
 
 	@Override
